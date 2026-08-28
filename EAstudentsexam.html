@@ -1,0 +1,162 @@
+from pathlib import Path
+
+p = Path("/mnt/data/horn_of_africa_exam_dashboard.html")
+html = p.read_text(encoding="utf-8")
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horn of Africa | Exam Statistics</title>
+<style>
+:root{--navy:#0b2545;--blue:#1976d2;--sky:#eaf4ff;--text:#172033;--muted:#667085;--line:#e6eaf0;--white:#fff;--bg:#f5f8fc;--green:#16845b;--red:#c0392b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),#155d91);color:white;padding:54px 20px 48px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:320px;height:320px;border-radius:50%;right:-100px;top:-150px;background:rgba(255,255,255,.08)}
+.container{max-width:1160px;margin:auto;position:relative;z-index:1}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:32px}
+.brand{font-weight:800;letter-spacing:.3px}
+.year-pill{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);padding:8px 12px;border-radius:999px;font-size:12px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800;opacity:.75}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.05;margin:9px 0 14px;letter-spacing:-1.5px}
+.subtitle{max-width:720px;line-height:1.7;color:rgba(255,255,255,.82);margin:0}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+select,input,button{font:inherit;border-radius:10px;padding:12px 14px}
+select,input{border:1px solid var(--line);background:white;color:var(--text);outline:none}
+input{min-width:220px}
+select:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(25,118,210,.12)}
+button{border:0;background:white;color:var(--navy);font-weight:750;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+main{padding:30px 20px 50px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card,.panel{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 30px rgba(16,35,60,.05)}
+.card{padding:22px;animation:rise .5s ease both}
+.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}
+.label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.7px}
+.value{font-size:30px;font-weight:850;letter-spacing:-.5px;margin-top:9px}
+.mini{font-size:12px;color:var(--muted);margin-top:6px}
+.panel{padding:25px;margin-top:18px}
+.panel-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:22px}
+.panel h2{font-size:19px;margin:0}.panel-note{font-size:12px;color:var(--muted)}
+.chart-row{display:grid;grid-template-columns:105px 1fr 65px;gap:12px;align-items:center;margin:18px 0}
+.chart-row strong{font-size:14px}
+.bar{height:12px;background:#edf2f7;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#1976d2,#42a5f5);border-radius:99px;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.rate{text-align:right;font-weight:800;font-size:13px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
+td{font-size:14px}
+tr:last-child td{border-bottom:0}
+tr{transition:background .2s}
+tbody tr:hover{background:#f8fbff}
+.badge{display:inline-block;padding:6px 9px;border-radius:999px;background:var(--sky);color:#1262aa;font-size:12px;font-weight:800}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.about{line-height:1.7;color:#5c6675;font-size:14px}
+footer{text-align:center;padding:28px 20px;color:#7a8492;font-size:12px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){header{padding-top:35px}.topline{margin-bottom:25px}.grid{grid-template-columns:1fr 1fr}.card{padding:17px}.value{font-size:24px}.chart-row{grid-template-columns:78px 1fr 52px}.panel{padding:18px}input{min-width:170px}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<div class="topline"><div class="brand">HOA • DATA DASHBOARD</div><div class="year-pill">AI-assisted project • 2026</div></div>
+<div class="eyebrow">Horn of Africa student examination data</div>
+<h1>Exam Statistics<br>Dashboard</h1>
+<p class="subtitle">A clean interactive view of students who sat examinations, passed, failed, and overall pass rates.</p>
+<div class="controls">
+<select id="year"><option value="2026">2026 data</option><option value="2025">2025 data</option></select>
+<input id="search" aria-label="Search country" placeholder="Search country..." oninput="render()">
+<button onclick="resetFilters()">Reset filters</button>
+</div>
+</div>
+</header>
+
+<main class="container">
+<section class="grid">
+<div class="card"><div class="label">Students sat</div><div class="value" id="totalSat">—</div><div class="mini">Selected countries</div></div>
+<div class="card"><div class="label">Passed</div><div class="value" id="totalPassed">—</div><div class="mini">Successful candidates</div></div>
+<div class="card"><div class="label">Failed</div><div class="value" id="totalFailed">—</div><div class="mini">Unsuccessful candidates</div></div>
+<div class="card"><div class="label">Pass rate</div><div class="value" id="passRate">—</div><div class="mini">Passed ÷ students sat</div></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><div><h2>Pass rate by country</h2><div class="panel-note">Compare successful candidates as a share of students who sat.</div></div></div>
+<div id="bars"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><div><h2>Country comparison</h2><div class="panel-note" id="tableNote"></div></div></div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Country</th><th>Students sat</th><th>Passed</th><th>Failed</th><th>Pass rate</th></tr></thead>
+<tbody id="table"></tbody>
+</table>
+</div>
+</section>
+
+<section class="panel">
+<h2>About this project</h2>
+<p class="about">This single-file dashboard was created as an AI-assisted web project. The figures currently included should be replaced with verified examination statistics before publication or formal reporting.</p>
+</section>
+</main>
+<footer>Horn of Africa Exam Statistics • Single-file HTML • Built for learning and iteration</footer>
+
+<script>
+/* Keep your verified data here. The existing project data is preserved. */
+const data={
+2025:[
+{name:"Somalia",sat:38471,passed:32714,failed:5757},
+{name:"Djibouti",sat:8500,passed:6900,failed:1600},
+{name:"Ethiopia",sat:12000,passed:9300,failed:2700},
+{name:"Kenya",sat:15000,passed:11200,failed:3800}
+],
+2026:[
+{name:"Somalia",sat:42000,passed:35000,failed:7000},
+{name:"Djibouti",sat:9200,passed:7500,failed:1700},
+{name:"Ethiopia",sat:13500,passed:10500,failed:3000},
+{name:"Kenya",sat:16200,passed:12300,failed:3900}
+]};
+
+const fmt=n=>n.toLocaleString();
+function render(){
+ const year=document.getElementById("year").value;
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const rows=data[year].filter(x=>x.name.toLowerCase().includes(q));
+ const sat=rows.reduce((a,x)=>a+x.sat,0);
+ const passed=rows.reduce((a,x)=>a+x.passed,0);
+ const failed=rows.reduce((a,x)=>a+x.failed,0);
+ const rate=sat?passed/sat*100:0;
+ document.getElementById("totalSat").textContent=fmt(sat);
+ document.getElementById("totalPassed").textContent=fmt(passed);
+ document.getElementById("totalFailed").textContent=fmt(failed);
+ document.getElementById("passRate").textContent=sat?rate.toFixed(1)+"%":"—";
+ document.getElementById("tableNote").textContent=rows.length+" countr"+(rows.length===1?"y":"ies")+" shown";
+
+ document.getElementById("bars").innerHTML=rows.length?rows.map(x=>{
+   const r=x.sat?x.passed/x.sat*100:0;
+   return `<div class="chart-row"><strong>${x.name}</strong><div class="bar"><div class="fill" data-width="${r}" style="width:0"></div></div><span class="rate">${r.toFixed(1)}%</span></div>`;
+ }).join(""):`<div class="empty">No country matches your search.</div>`;
+
+ document.getElementById("table").innerHTML=rows.length?rows.map(x=>{
+   const r=x.sat?x.passed/x.sat*100:0;
+   return `<tr><td><strong>${x.name}</strong></td><td>${fmt(x.sat)}</td><td>${fmt(x.passed)}</td><td>${fmt(x.failed)}</td><td><span class="badge">${r.toFixed(1)}%</span></td></tr>`;
+ }).join(""):`<tr><td colspan="5" class="empty">No data found.</td></tr>`;
+
+ requestAnimationFrame(()=>document.querySelectorAll(".fill").forEach(el=>el.style.width=el.dataset.width+"%"));
+}
+function resetFilters(){document.getElementById("year").value="2026";document.getElementById("search").value="";render()}
+document.getElementById("year").addEventListener("change",render);
+render();
+</script>
+</body>
+</html>'''
+
+p.write_text(html, encoding="utf-8")
+print(p)
